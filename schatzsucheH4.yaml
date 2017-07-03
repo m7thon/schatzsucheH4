@@ -1,0 +1,423 @@
+product-id: 904
+media-path: audio/%s
+language: de
+comment: Schatzsuche zum 4. Geburtstag
+init: $wollen:=31
+welcome: wilkommen
+
+# Variablen:
+# $p: 1, wenn jemand spricht (nicht unterbrechen), sonst 0
+# $s: Aktuelle "Station" der Schatzsuche
+# $ok: 1, wenn der "ok" Elternbutton getippt wurde, sonst 0
+# Der "ok" Elternbutton ist der einzige, der Dialoge unterbrechen kann!
+# $paul, $troll, $aufgabe, $zeichen, $schatz, $wohin: Status für aktuellen Dialog
+# (wenn $s nicht ausreicht) 
+# $wollen: Was die Trolle noch haben wollen. 5 bit, 31 = 11111
+
+
+scripts:
+# Pfeile:
+  pfeil:
+    - $p==0? $s>=2? $ok==1?                J(pfeile) 
+
+# OIDs der Schatzkarte
+  karte1:
+    - $p==0? $s==0?                        $s:=1 $paul:=2       $p:=1 J(_p0) P(schatzkarte1)
+    - $p==0? $s==1? $aufgabe==0?                                $p:=1 J(_p0) P(schatzkarte1)
+    - $p==0? $s==2? $ok==0?                                     $p:=1 J(_p0) P(paul20)
+  kindergarten:
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0? $s==2? $ok==0?                                     $p:=1 J(_p0) P(kindergarten0)
+    - $p==0?                                                    $p:=1 J(_p0) P(kindergarten)
+  tische:
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0?                                                    $p:=1 J(_p0) P(tische)
+  bauraum:
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0?                                                    $p:=1 J(_p0) P(bauraum)
+  wasserpumpe:
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0?                                                    $p:=1 J(_p0) P(wasserpumpe)
+  beeren:  
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0?                                                    $p:=1 J(_p0) P(beeren)
+  schaukel:
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0?                                                    $p:=1 J(_p0) P(schaukel)
+  baumhaus:
+    - $p==0? $s<=1?                        J(karte1)
+    - $p==0?                                                    $p:=1 J(_p0) P(baumhaus)
+  pfeile:
+    - $p==0? $s<=1?                        J(karte1) 
+    - $p==0? $s==2? $ok==0?                $ok:=1               $p:=1 J(_p0) P(pfeile0)
+    - $p==0? $s==2? $ok==1?                                     $p:=1 J(_p0) P(paul21)
+    - $p==0?                                                    $p:=1 J(_p0) P(pfeile)
+  # Aufgaben 1-3
+  a1:
+    - $p==0? $s==0?                        J(karte1)
+    - $p==0? $s==1? $aufgabe==1?                                $p:=1 J(_p0) P(aufgabe1) 
+    - $p==0?                               J(kindergarten)
+  a2: 
+    - $p==0? $s==0?                        J(karte1) 
+    - $p==0? $s==1? $aufgabe==2?                                $p:=1 J(_p0) P(aufgabe2)
+    - $p==0?                               J(kindergarten)
+  a3:
+    - $p==0? $s==0?                        J(karte1)
+    - $p==0? $s==1? $aufgabe==3? $ok!=1?   $ok:=0               $p:=1 J(_p0) P(aufgabe3)
+    - $p==0? $s==1? $aufgabe==3? $ok==1?                        $p:=1 J(_p0) P(aufgabe3)    
+    - $p==0?                               J(kindergarten)
+
+  karte2:
+    - $p==0? $s<=2?                        $s:=3                $p:=1 J(_p0) P(schatzkarte2)
+  weg:
+    - $p==0? $s<=2?                        J(karte2)
+    - $p==0?                                                    $p:=1 J(_p0) P(weg)
+  dreiecke:
+    - $p==0? $s<=2?                        J(karte2)
+    - $p==0?                                                    $p:=1 J(_p0) P(dreiecke)
+  maul:
+    - $p==0? $s<=2?                        J(karte2)
+    - $p==0?                                                    $p:=1 J(_p0) P(maul)
+  kakadu:
+    - $p==0? $s<=2?                        J(karte2)
+    - $p==0?                                                    $p:=1 J(_p0) P(kakadu)
+  kindergarten2:
+    - $p==0? $s<=2?                        J(karte2)
+    - $p==0?                                                    $p:=1 J(_p0) P(kindergarten)
+  baumstumpf:
+    - $p==0? $s<=2?                        J(karte2)
+    - $p==0?                                                    $p:=1 J(_p0) P(baumstumpf)
+  
+  karte3:
+    - $p==0? $s<=3?                        $s:=4                $p:=1 J(_p0) P(schatzkarte3)
+  spirale:
+    - $p==0? $s<=3?                        J(karte3)
+    - $p==0?                                                    $p:=1 J(_p0) P(spirale)
+  haus:
+    - $p==0? $s<=3?                        J(karte3)
+    - $p==0?                                                    $p:=1 J(_p0) P(haus)
+  wald:
+    - $p==0? $s<=3?                        J(karte3)
+    - $p==0?                                                    $p:=1 J(_p0) P(wald)
+  nestschaukel:
+    - $p==0? $s<=3?                        J(karte3)
+    - $p==0?                                                    $p:=1 J(_p0) P(nestschaukel)
+  wippe:
+    - $p==0? $s<=3?                        J(karte3)
+    - $p==0?                                                    $p:=1 J(_p0) P(wippe)
+  pfaehle:
+    - $p==0? $s<=3?                        J(karte3)
+    - $p==0?                                                    $p:=1 J(_p0) P(pfaehle)
+
+  karte4:
+    - $p==0? $s<7?            $ok:=0 $s:=7 $paul:=0 $troll:=6   $p:=1 J(_p0) P(katze0)
+  birke:
+    - $p==0? $s<7?                         J(karte4)
+    - $p==0?                                                    $p:=1 J(_p0) P(birke)
+  turm:
+    - $p==0? $s<7?                         J(karte4)
+    - $p==0? $s==7? $ok==1?                $s:=8 $ok:=0         J(turm)
+    - $p==0? $s==7?                        $wohin:=1            $p:=1 J(_p0) P(turm0_zum_kletterturm)
+    - $p==0? $s<9?                                              $p:=1 J(_p0) P(turm0)
+    - $p==0?                                                    $p:=1 J(_p0) P(turm1)
+  zeichen:
+    - $p==0? $s<7?                         J(karte4)
+    - $p==0? $s==7? $ok==1?                $s:=8 $ok:=0         J(zeichen)    
+    - $p==0? $s==7? $wohin==0?                                  $p:=1 J(_p0) P(zeichen0)
+    - $p==0? $s==7? $wohin==1?                                  $p:=1 J(_p0) P(zum_kletterturm)
+    - $p==0? $s==8? $zeichen==0?           $zeichen:=1          $p:=1 J(_p0) P(zeichen1_zeichen2_seile_dasX)
+    - $p==0? $s==8? $zeichen==1?                                $p:=1 J(_p0) P(zeichen2_seile_dasX)
+    - $p==0?                                                    $p:=1 J(_p0) P(seile_dasX)
+
+# Paulchen
+  armband:
+    - $p==0? $s==0?                        $paul:=1             $p:=1 J(_p0) P(paul_kette00)
+    - $p==0?                                                    $p:=1 J(_p0) P(paul_kette)
+  paul:
+    - $p==0? $s==0? $paul==0?                                   $p:=1 J(_p0) P(paul00)
+    - $p==0? $s==0? $paul==1?                                   $p:=1 J(_p0) P(paul01)
+
+    - $p==0? $s==1? $aufgabe==0?           $aufgabe:=1          $p:=1 J(_p0) P(paul10) 
+    - $p==0? $s==1? $aufgabe==1? $ok==0?                        $p:=1 J(_p0) P(paul110) 
+    - $p==0? $s==1? $aufgabe==1? $ok==1?   $aufgabe:=2 $ok:=0   $p:=1 J(_p0) P(paul111) 
+    - $p==0? $s==1? $aufgabe==2? $ok==0?                        $p:=1 J(_p0) P(paul120) 
+    - $p==0? $s==1? $aufgabe==2? $ok==1?   $aufgabe:=3 $ok:=2   $p:=1 J(_p0) P(paul121) 
+    - $p==0? $s==1? $aufgabe==3? $ok==2?                        $p:=1 J(_p0) P(paul130) 
+    - $p==0? $s==1? $aufgabe==3? $ok==0?                        $p:=1 J(_p0) P(paul131) 
+    - $p==0? $s==1? $aufgabe==3? $ok==1?   $s:=2 $ok:=0         $p:=1 J(_p0) P(paul20)
+
+    - $p==0? $s==2? $ok==0?                                     $p:=1 J(_p0) P(paul20)
+    - $p==0? $s==2? $ok==1?                J(pfeile)
+    
+    - $p==0? $s==3?                                             $p:=1 J(_p0) P(paul30)
+    - $p==0? $s==4?                                             $p:=1 J(_p0) P(paul40)
+    - $p==0? $s==5? $troll==1?                                  $p:=1 J(_p0) P(paul51)
+    - $p==0? $s==5? $troll==2?                                  $p:=1 J(_p0) P(paul52)
+    - $p==0? $s==5? $troll==3?                                  $p:=1 J(_p0) P(paul53)
+    - $p==0? $s==5? $troll==4?                                  $p:=1 J(_p0) P(paul54)
+
+    - $p==0? $s==6?                                             $p:=1 J(_p0) P(paul60)
+
+    - $p==0? $s==7? $ok==1?                $s:=8 $ok:=0         J(paul)
+    - $p==0? $s==7? $wohin==0?                                  $p:=1 J(_p0) P(paul70)
+    - $p==0? $s==7? $wohin==1?                                  $p:=1 J(_p0) P(zum_kletterturm)
+
+    - $p==0? $s==8? $zeichen==0?                                $p:=1 J(_p0) P(paul80)
+    - $p==0? $s==8? $zeichen==1? $ok==0?                        $p:=1 J(_p0) P(paul82_seile_dasX)
+    - $p==0? $s==8? $ok==1?                                     $p:=1 J(_p0) P(paul83)    
+
+    - $p==0? $s==9? $ok==0?                                     $p:=1 J(_p0) P(paul90)
+    - $p==0? $s==9? $ok==1?                                     $p:=1 J(_p0) P(paul91)
+
+# Trolle
+  troll:
+    - $p==0? $troll==0?                    $s:=5 $troll:=1      $p:=1 J(_p0) P(troll0)
+    - $p==0? $troll==1?                    $troll:=2            $p:=1 J(_p0) P(troll1)
+    - $p==0? $troll==2?                    $troll:=3            $p:=1 J(_p0) P(troll2)
+    - $p==0? $troll==3?                    $troll:=4            $p:=1 J(_p0) P(troll3_troll_dann)
+    - $p==0? $troll==4?                    J(_wollen)
+    - $p==0? $troll==5?                                         $p:=1 J(_p0) P(troll5)
+    - $p==0? $troll==6?                                         $p:=1 J(_p0) P(troll6)
+
+  _wollen:
+    - $wollen==0?                          $s:=6 $troll:=5      $p:=1 J(_p0) P(troll4_troll5)
+    - $wollen>0?                           $w:=$wollen          $p:=1 J(_w_eicheln) P(wollen)
+  _w_eicheln:
+    - $w>=16?                              $w-=16               J(_w_schnecke) P(eicheln1, eicheln2)
+    - J(_w_schnecke)
+  _w_schnecke:
+    - $w>=8?                               $w-=8                J(_w_spinne) P(schnecke1, schnecke2)
+    - J(_w_spinne)
+  _w_spinne:
+    - $w>=4?                               $w-=4                J(_w_loewenzahn) P(spinne1, spinne2)
+    - J(_w_loewenzahn)
+  _w_loewenzahn:
+    - $w>=2?                               $w-=2                J(_w_tannenzapfen) P(loewenzahn1, loewenzahn2)
+    - J(_w_tannenzapfen)
+  _w_tannenzapfen:
+    - $w==1?                                                    J(_w_dann) P(tannenzapfen1, tannenzapfen2)
+    - J(_w_dann)
+  _w_dann:
+    - J(_p0) P(troll_dann)
+
+  eicheln:
+    - $p==0? $s==5? $wollen&=15 $p:=1 J(_wollen) P(troll_danke1, troll_danke2, troll_danke3, troll_danke4)
+  schnecke:
+    - $p==0? $s==5? $wollen&=23 $p:=1 J(_wollen) P(troll_danke1, troll_danke2, troll_danke3, troll_danke4)
+  spinne:
+    - $p==0? $s==5? $wollen&=27 $p:=1 J(_wollen) P(troll_danke1, troll_danke2, troll_danke3, troll_danke4)
+  loewenzahn:
+    - $p==0? $s==5? $wollen&=29 $p:=1 J(_wollen) P(troll_danke1, troll_danke2, troll_danke3, troll_danke4)
+  tannenzapfen:
+    - $p==0? $s==5? $wollen&=30 $p:=1 J(_wollen) P(troll_danke1, troll_danke2, troll_danke3, troll_danke4)
+
+# Katze:
+  katze:
+  - $p==0? $s<7?                           J(karte4)
+  - $p==0? $s>=7?                                               $p:=1 J(_p0) P(katze1)    
+
+# Beim Schatz
+  markierungen:
+    - $p==0? $s<7?                                              $p:=1 J(_p0) P(markierungen0)
+    - $p==0? $s==7?                        $s:=8 $ok:=0         J(markierungen)
+    - $p==0? $s==8? $zeichen==0?                                $p:=1 J(_p0) P(markierungen0)
+    - $p==0? $s==8? $zeichen==1?                                $p:=1 J(_p0) P(markierungen1)
+    - $p==0? $s==9?                                             $p:=1 J(_p0) P(markierungen)
+  schatz:
+    - $p==0? $s<9?                         $s:=9 $ok:=0         J(schatz)
+    - $p==0? $ok==0? $schatz==0?           $schatz:=1           $p:=1 J(_p0) P(schatz0)
+    - $p==0? $ok==0? $schatz==1?                                $p:=1 J(_p0) P(schatz1)
+    - $p==0? $ok==1?                                            $p:=1 J(_p0) P(schatz)
+      
+# Elternbutton
+  ok:
+    - $ok:=1 $p:=0 P(ok)
+
+# Audio nicht unterbrechen
+  _p0:
+    - $p:=0
+
+
+speak:
+  dummy: ""
+#   ok: "Pling!"
+# # General
+#   wilkommen: "Wer ist das denn? Tippt ihn an und findet es raus."
+#   bauraum: "Das ist der Bauraum der Regenbogengruppe. Hier haben wir das erste Teil der Schatzkarte gefunden. Wer das da wohl versteckt hat?"
+#   wasserpumpe: "Ah, ich glaube, das ist bei der Wasserpumpe."
+#   kindergarten: "Das ist der Kindergarten."
+#   tische: "Tische und Bänke. Da gibt es manchmal einen Snack."
+#   pfeile: "Diese Pfeile haben uns zum zweiten Teil der Schatzkarte geführt."
+#   spirale: "Oh, das erkenne ich! Das ist die Kräuterspirale."
+#   baumstumpf: "Das sind nur ein paar Baumstümpfe."
+#   weg: "Das ist der Weg, der um den Kindergarten herum führt."
+#   schaukel: "Könnte das eine Schaukel sein?"
+#   dreiecke: "Zwei Dreiecke? Wo soll das denn sein?"
+#   maul: "Das sieht irgendwie unheimlich aus. Wie das Maul von einem gefährlichen Tier!"
+#   kakadu: "Ist das auch ein Spielplatz? Ich kann das nicht so genau erkennen."
+#   baumhaus: "Das soll wohl das Baumhaus sein. Normalerweise ist ein Baumhaus aber ein Haus im Baum."
+#   beeren: "Hier wachsen Johannisbeeren, die man essen kann."
+#   haus: "Das ist ein kleines Spielhaus. Wohnt da etwa jemand?"
+#   wald: "Das ist der hintere Wald. Im Wald kann man viele spannende Sachen finden. Aber Ihr dürft da nur zu zweit rein gehen."
+#   nestschaukel: "Whuii, darin lasse ich mich gerne schaukeln."
+#   wippe: "Eine Wippe."
+#   pfaehle: "An der Stelle sind Holzpfähle im Boden. Ich glaube, keiner weiß genau, wozu die eigentlich gut sind."
+#   birke: "Das ist eine Birke. Eine Birke ist ein Baum, der einen weißen Baumstamm hat."
+#   turm0: "Das ist doch der Kletterturm auf dem Spielplatz. Da ist bestimmt irgendwo der Schatz versteckt."
+#   turm1: "Beim Kletterturm war der Schatz vergraben!"
+
+# # Station 0
+#   paul00: "Hallo Kinder. Ich bin Paulchen, der Schatzsucher! Ich bin schon vier Jahre alt, und habe schon viele tolle Schätze gefunden. Schaut Euch doch mal mein Armband an."
+#   paul_kette00: "Toll, was? Dieses Armband habe ich auf meiner letzten Schatzsuche gefunden. Wollt Ihr etwa auch einen Schatz finden? Na, dann braucht Ihr aber erstmal eine Schatzkarte. Wenn Ihr eine gefunden habt, dann kommt wieder, und zeigt sie mir."
+#   paul_kette: "Dieses Armband habe ich auf meiner letzten Schatzsuche gefunden."
+#   paul01: "Ihr wollt wissen, wo man eine Schatzkarte findet? Also, das letzte mal habe ich eine entdeckt, als ich ganz normal im Bauraum gespielt habe. Schaut Euch da mal um. Aber bringt bitte nichts durcheinander. Wenn Ihr eine Schatzkarte gefunden habt, dann kommt wieder, und zeigt sie mir."
+
+# # Station 1
+#   schatzkarte1: "Cool! Das ist ja ein Teil von einer echten Schatzkarte. Dann können wir ja jetzt auf Schatzsuche gehen. Aber moment, ich weiß ja nicht, Ihr seid doch gar keine richtigen Schatzsucher, oder? Wenn doch, dann tippt mich an."
+#   paul10: "Hmm. Ihr müsst mir aber erst zeigen, dass Ihr auch wirklich richtige Schatzsucher seid. Dazu müsst Ihr drei Aufgaben erfüllen. Seid Ihr bereit? Dann tippt auf der Schatzkarte auf die 1."
+
+#   aufgabe1: "Als Schatzsucher muss man ganz leise schleichen können. Eure erst Aufgabe ist: Schleicht ganz ganz leise, ohne etwas zu sagen, einmal durch die Halle. Wenn Ihr das geschafft habt, dann kommt zurück und tippt mich an."
+#   paul111: "Huch! Ihr seid ja schon wieder da. Ich habe Euch überhaupt nicht gehört. Seid Ihr bereit für die zweite Aufgabe? Dann tippt auf der Schatzkarte auf die 2"
+#   paul110: "Ihr müsst mir erst noch zeigen, dass Ihr auch wirklich richtige Schatzsucher seid. Dazu müsst Ihr erst meine Aufgaben richtig erfüllen. Wenn Ihr die erste Aufgabe hören wollt, dann tippt auf der Schatzkarte auf die 2."
+
+#   aufgabe2: "Als Schatzsucher muss man immer gut zusammenhalten. Eure zweite Aufgabe ist: Fasst Euch an den Händen, und macht eine lange Kette, so lang wie Ihr könnt. Wenn Ihr das gemacht habt, dann kommt zurück und tippt mich an."
+#   paul120: "Ihr müsst erst meine Aufgabe richtig erfüllen. Wenn Ihr sie noch einmal hören wollt, dann tippt auf der Schatzkarte auf die 2."
+#   paul121: "Klasse! Und wenn wir gleich auf Schatzsuche sind, dann müsst ihr auch zusammen halten, und auf die langsameren Kinder warten. Seid Ihr bereit für die letzte Aufgabe? Dann tippt auf der Schatzkarte auf die 3."
+#   paul130: "Seid Ihr bereit für die letzte Aufgabe? Dann tippt auf der Schatzkarte auf die 3."
+  
+#   aufgabe3: "Wir wollen gleich zusammen draußen auf Schatzsuche gehen. Eure dritte Aufgabe ist ganz einfach: Zieht Euch schnell an. Wenn Ihr soweit seid, dann kommt zurück und tippt mich an."
+#   paul131: "Ihr müsst Euch erst alle für draußen anziehen. Wenn Ihr fertig seid, dann kommt zurück und tippt mich an."
+
+# #Station 2
+#   paul20: "Ok, wir sind startklar. Aber wo sollen wir hin? Könnt Ihr auf der Karte sehen, wo wir hin sollen?"
+#   kindergarten0: "Das ist der Kindergarten. Hier sind wir jetzt gerade drin. Aber wo sollen wir wohl hingehen?"
+#   pfeile0: "Oh, schaut mal! Hier sind Pfeile gezeichnet. Die führen nach draußen und dann, dann führen sie bestimmt zum Schatz! Lasst uns den Pfeilen folgen. Oh, ich bin schon ganz aufgeregt! Aber denkt dran: Als Schatzsucher müsst Ihr zusammenhalten. Manche Kinder sind vielleicht nicht so schnell. Los geht's."
+#   paul21: "Wir müssen den Pfeilen folgen. Mal schaun, wo die uns hinführen."
+
+# #Station 3
+#   schatzkarte2: "Prima! Ihr habt noch einen Teil der Schatzkarte gefunden. Sind da auch wieder Pfeile drauf, die zeigen, wo wir hin müssen?"
+#   paul30: "Schaut Euch die Schatzkarte genau an. Da ist bestimmt wieder ein Pfeil, und da müssen wir dann suchen. Wo ist das bloß?"
+
+# #Station 4
+#   schatzkarte3: "Oh, noch ein Teil der Schatzkarte. Und ich sehe auch wieder einen Pfeil. Was wir da wohl finden?"
+#   paul40: "Ich glaube, der nächste Pfeil zeigt auf das kleine Spielhaus. Ob da wohl jemand wohnt?" 
+
+# #Station 5 (Trolle)
+#   troll0: "Aua! Das hat gepiekst! -- Und ich hab mich erschrocken! -- Wer seid Ihr denn überhaupt? -- Und was wollt Ihr von uns?"
+#   paul51: "Wir sind Schatzsucher. Und was seid Ihr für komische Kerle?"
+#   troll1: "Wir sind übrigens Waldtrolle. -- Nein, Waldwichtel. -- Ich bin aber ein Troll! -- Und ich ein Wichtel! -- Und wir wollten uns gerade eine leckere Suppe kochen. -- Aber wir haben leider nichts mehr zu essen! -- Und haben hunger! -- Ich hab hunger! -- Ich hab auch hunger! -- Ich hab aber noch viel mehr hunger als Du! -- Ich hab soo viel hunger, ich fress Dich gleich auf!"
+#   paul52: "Ich glaube, der Troll und der Wichtel haben hunger. Aber vielleicht wissen die ja auch noch was über den Schatz."
+#   troll2: "Ich hab eine Idee. -- Oh, ja, die ist gut! -- Nun hör mir doch erstmal zu. Also, wenn Ihr uns was zu essen bringt, dann... -- Dann verraten wir Euch, wo Ihr das letzte Stück von der Schatzkarte findet. -- Psst! Das wollten wir doch nicht verraten! -- Aber wir haben doch soo großen hunger!"
+#   paul53: "Fragt die beiden doch mal, was sie gerne essen mögen." 
+#   troll3: "Ich mag gerne Eicheln -- Und ich Schnecken! -- Schnecken! Ihh-gitt. Ich esse viel lieber Spinnen! -- Und dazu leckeren gelben Löwenzahn. -- Oh ja, und zum Nachtisch teilen wir uns noch einen Tannenzapfen. -- Mmm. Lecker. -- Das findet Ihr alles im Wald. -- Und wenn Ihr uns das alles bringt..." 
+#   paul54: "Sucht mal im Wald nach den Sachen, die die Trolle gerne zu essen haben wollen. Ich warte hier. Wenn ihr was gefunden habt, dann kommt schnell wieder her, und wir geben es den Waldwichteln."
+#   troll_danke1: "Oh, lecker! Vielen Dank!"
+#   troll_danke2: "Yumm, yumm! Danke!"
+#   troll_danke3: "Schmatz. Das hab ich gleich vernascht! Danke!"
+#   troll_danke4: "Habt dank, Ihr lieben Schatzsucher!"
+#   wollen: "Bringt uns aus dem Wald jetzt bitte noch..."
+#   eicheln1: "Eicheln"
+#   eicheln2: "Eicheln"
+#   schnecke1: "Eine Schnecke"
+#   schnecke2: "Eine Schnecke"
+#   spinne1: "Eine Spinne"
+#   spinne2: "Eine Spinne"
+#   loewenzahn1: "Eine gelbe Löwenzahn Blume"
+#   loewenzahn2: "Eine gelbe Löwenzahn Blume"
+#   tannenzapfen1: "einen Tannenzapfen"
+#   tannenzapfen2: "einen Tannenzapfen"
+#   troll_dann: "...dann sagen wir Euch, wo Ihr das letzte Stück von der Schatzkarte findet."
+#   troll4: "Ihr habt uns alles gebracht, was wir haben wollten. -- Das war echt sehr nett von Euch! -- Und jetzt verraten wir Euch, wo Ihr das letzte Stück von der Schatzkarte findet. -- Wollen wir das wirklich verraten? -- Naja, wir haben es ja versprochen. -- Ja, stimmt, versprochen ist versprochen! -- Also, hört gut zu!"
+#   troll5: "Das letzte Stück von der Schatzkarte hat sich eine Katze geschnappt. -- Aber die hat sich ganz schlimm in Seilen verfangen. -- Ja, beim Baumhaus sitzt sie in der Falle. -- Wenn Ihr die Katze befreit, dann gibt sie Euch bestimmt das letzte Stück der Schatzkarte. -- Viel Glück. -- Tschüß! -- Und danke nochmal für die leckeren Sachen!" 
+#   troll6: "Oh, Ihr habt die Katze befreit! Das war sehr nett von Euch! -- Und nochmal danke für die leckeren Sachen!"
+
+# #Station 6 (Katze)
+#   paul60: "Ich denke, wir sollten als nächstes die Katze beim Baumhaus befreien, und sie nach dem letzten Stück der Schatzkarte fragen."
+#   katze0: "Miau! Ihr habt mich gerettet! Hier, nehmt mein Teil von der Schatzkarte. Ich fange ja auch viel lieber Mäuse, als nach Schätzen zu suchen. Die Seile könnt Ihr auch mitnehmen. Die könnt Ihr bestimmt noch gut gebrauchen. Tschüß, und viel Glück!"
+#   katze1: "Keine Zeit, keine Zeit! Ich will jetzt Mäuse jagen! Tschüß, und viel Glück!"
+
+# #Station 7 (Auf zum X)
+#   paul70: "Hurrah! Die Schatzkarte ist komplett. Aber wo ist denn nun der Schatz?"
+#   zum_kletterturm : "Lasst uns alle zusammen zum Kletterturm gehen. Wenn wir dort sind, erkläre ich Euch, was die Zeichen auf der Karte bedeuten. Vergesst nicht, die Seile mitzunehmen. Auf gehts."
+#   zeichen0: "Diese Zeichen sind sehr interessant. Aber wo ist das?"
+
+# #Station 8 (Das X)
+#   markierungen0: "Das sind Markierungen. Die helfen uns bestimmt, den Schatz zu finden."
+#   markierungen1: "Wir müssen diese Markierungen mit Seilen verbinden. Da wo sich die Seile treffen, liegt der Schatz vergraben."
+#   markierungen: "Diese Markierungen haben uns gezeigt, wo genau wir nach dem Schatz graben mussten."
+#   paul80: "So, nun lasst uns mal die Zeichen auf der Schatzkarte genauer untersuchen."
+#   zeichen1: "Ich glaube, ich weiß, was diese Zeichen bedeuten. Das ist ein ganz alter Schatzsucher Trick. Ihr müsst gut aufpassen, dann erkäre ich es Euch."
+#   zeichen2: "Ein Schatz liegt hier irgendwo vergraben, und die Zeichen sagen uns, wo wir graben müssen."
+#   paul82: "Hier müssen irgendwo Herz, Stern, Hand und Blume markiert sein. Wenn Ihr die Markierungen gefunden habt, dann..."
+#   seile_dasX: "Nehmt ein Seil, und verbindet die Hand mit dem Herz. Nehmt noch ein Seil und verbindet den Stern mit der Blume. Da wo sich die Seile treffen, liegt der Schatz vergraben."
+#   paul83: "Wir müssen den Schatz jetzt nur noch ausgraben. Schaufeln findet man hier immer irgendwo im Sand. Die Kindergartenkinder vergessen nämlich oft, Ihre Sachen wegzuräumen."
+
+# #Station 9 (Der Schatz)
+#   schatz0: "Hurrah, wir haben einen Schatz gefunden! Oh, ich freu mich so! Was ist denn da alles drin? Lasst mich auch mal gucken! Wisst Ihr was? Ihr seid wirklich richtig gute Schatzsucher! Und weil Schatzsucher immer zusammenhalten, teilen wir den Schatz jetzt auf. Jeder bekommt etwas vom Schatz ab."
+#   schatz1: "Lasst uns den Schatz gerecht aufteilen."
+#   paul90: "Wisst Ihr was? Ihr seid wirklich richtig gute Schatzsucher! Und weil Schatzsucher immer zusammenhalten, teilen wir den Schatz jetzt auf. Jeder bekommt etwas vom Schatz ab."
+  
+#   schatz: "Das ist ein echt mega-cooler Schatz!"
+#   paul91: "Die Schatzsuche mit Euch hat mir richtig Spaß gemacht. Aber jetzt habe ich hunger und möchte was essen, und danach ruhe ich mich ein bisschen aus. Tschüß! Und viel Spaß auf der Geburtstagsfeier."
+
+# # Verbundene Texte:
+#   turm0_zum_kletterturm: "Das ist doch der Kletterturm auf dem Spielplatz. Da ist bestimmt irgendwo der Schatz versteckt. Lasst uns alle zusammen zum Kletterturm gehen. Wenn wir dort sind, erkläre ich Euch, was die Zeichen auf der Karte bedeuten. Vergesst nicht, die Seile mitzunehmen. Auf gehts."
+#   zeichen1_zeichen2_seile_dasX: "Ich glaube, ich weiß, was diese Zeichen bedeuten. Das ist ein ganz alter Schatzsucher Trick. Ihr müsst gut aufpassen, dann erkäre ich es Euch. Ein Schatz liegt hier irgendwo vergraben, und die Zeichen sagen uns, wo wir graben müssen. Nehmt ein Seil, und verbindet die Hand mit dem Herz. Nehmt noch ein Seil und verbindet den Stern mit der Blume. Da wo sich die Seile treffen, liegt der Schatz vergraben."
+#   zeichen2_seile_dasX: "Ein Schatz liegt hier irgendwo vergraben, und die Zeichen sagen uns, wo wir graben müssen. Nehmt ein Seil, und verbindet die Hand mit dem Herz. Nehmt noch ein Seil und verbindet den Stern mit der Blume. Da wo sich die Seile treffen, liegt der Schatz vergraben."
+#   paul82_seile_dasX: "Hier müssen irgendwo Herz, Stern, Hand und Blume markiert sein. Wenn Ihr die Markierungen gefunden habt, dann nehmt ein Seil, und verbindet die Hand mit dem Herz. Nehmt noch ein Seil und verbindet den Stern mit der Blume. Da wo sich die Seile treffen, liegt der Schatz vergraben."
+#   troll3_troll_dann: "Ich mag gerne Eicheln -- Und ich Schnecken! -- Schnecken! Ihh-gitt. Ich esse viel lieber Spinnen! -- Und dazu leckeren gelben Löwenzahn. -- Oh ja, und zum Nachtisch teilen wir uns noch einen Tannenzapfen. -- Mmm. Lecker. -- Das findet Ihr alles im Wald. -- Und wenn Ihr uns das alles bringt, dann sagen wir Euch, wo Ihr das letzte Stück von der Schatzkarte findet."
+#   troll4_troll5: "Ihr habt uns alles gebracht, was wir haben wollten. -- Das war echt sehr nett von Euch! -- Und jetzt verraten wir Euch, wo Ihr das letzte Stück von der Schatzkarte findet. -- Wollen wir das wirklich verraten? -- Naja, wir haben es ja versprochen. -- Ja, stimmt, versprochen ist versprochen! -- Also, hört gut zu! Das letzte Stück von der Schatzkarte hat sich eine Katze geschnappt. -- Aber die hat sich ganz schlimm in Seilen verfangen. -- Ja, beim Baumhaus sitzt sie in der Falle. -- Wenn Ihr die Katze befreit, dann gibt sie Euch bestimmt das letzte Stück der Schatzkarte. -- Viel Glück. -- Tschüß! -- Und danke nochmal für die leckeren Sachen!"
+
+
+scriptcodes:
+  ok: 7088
+  _wollen: 10117
+  haus: 10087
+  loewenzahn: 10109
+  birke: 10118
+  _w_tannenzapfen: 10116
+  dreiecke: 10085
+  a3: 7084
+  karte3: 10090
+  baumstumpf: 10100
+  _w_dann: 10111
+  weg: 10108
+  karte4: 10119
+  bauraum: 10083
+  paul: 7090
+  _w_spinne: 10115
+  spirale: 10096
+  karte2: 10089
+  pfaehle: 10121
+  beeren: 10084
+  pfeile: 7091
+  a2: 7083
+  zeichen: 10122
+  pfeil: 10104
+  turm: 10124
+  kakadu: 10088
+  markierungen: 10101
+  wasserpumpe: 10107
+  kindergarten: 7087
+  baumhaus: 10082
+  spinne: 10095
+  _w_eicheln: 10112
+  schatz: 10102
+  _p0: 10106
+  nestschaukel: 10120
+  maul: 10092
+  tische: 10123
+  a1: 7082
+  karte1: 7085
+  _w_loewenzahn: 10113
+  tannenzapfen: 10097
+  eicheln: 10086
+  wippe: 10125
+  armband: 7086
+  kindergarten2: 10099
+  schnecke: 10094
+  wald: 10105
+  schaukel: 10093
+  _w_schnecke: 10114
+  katze: 10091
+  troll: 10098
